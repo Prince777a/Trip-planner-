@@ -1,95 +1,85 @@
-# AI Crew for Trip Planning
-## Introduction
-This project is an example using the CrewAI framework to automate the process of planning a trip if you are in doubt between different options. CrewAI orchestrates autonomous AI agents, enabling them to collaborate and execute complex tasks efficiently.
+# ✈️ Trip UI Gemini
 
-By [@joaomdmoura](https://x.com/joaomdmoura)
+An AI-powered travel planning application that creates personalized travel itineraries using advanced AI agents. The application combines the power of CrewAI, Google's Generative AI, and Streamlit to provide an intuitive and intelligent travel planning experience.
 
-- [CrewAI Framework](#crewai-framework)
-- [Running the script](#running-the-script)
-- [Details & Explanation](#details--explanation)
-- [Using GPT 3.5](#using-gpt-35)
-- [Using Local Models with Ollama](#using-local-models-with-ollama)
-- [Contributing](#contributing)
-- [Support and Contact](#support-and-contact)
-- [License](#license)
+## 🌟 Features
 
-## CrewAI Framework
-CrewAI is designed to facilitate the collaboration of role-playing AI agents. In this example, these agents work together to choose between different of cities and put together a full itinerary for the trip based on your preferences.
+- **Smart Travel Planning**: Get personalized travel itineraries based on your preferences
+- **AI-Powered Agents**: Utilizes multiple AI agents for different aspects of travel planning:
+  - City Selection Agent
+  - Local Expert Agent
+  - Travel Concierge Agent
+- **Interactive UI**: Beautiful and user-friendly interface built with Streamlit
+- **Customizable Preferences**: 
+  - Multiple city selection
+  - Date range planning
+  - Interest-based recommendations
+  - Flexible travel preferences
 
-## Running the Script
-It uses GPT-4 by default so you should have access to that to run it.
+## 🚀 Getting Started
 
-***Disclaimer:** This will use gpt-4 unless you changed it 
-not to, and by doing so it will cost you money.*
+### Prerequisites
 
-- **Configure Environment**: Copy ``.env.example` and set up the environment variables for [Browseless](https://www.browserless.io/), [Serper](https://serper.dev/) and [OpenAI](https://platform.openai.com/api-keys)
-- **Install Dependencies**: Run `poetry install --no-root`.
-- **Execute the Script**: Run `poetry run python main.py` and input your idea.
+- Python 3.10 or higher (but less than 3.12)
+- Poetry for dependency management
 
-## Details & Explanation
-- **Running the Script**: Execute `python main.py`` and input your idea when prompted. The script will leverage the CrewAI framework to process the idea and generate a landing page.
-- **Key Components**:
-  - `./main.py`: Main script file.
-  - `./trip_tasks.py`: Main file with the tasks prompts.
-  - `./trip_agents.py`: Main file with the agents creation.
-  - `./tools`: Contains tool classes used by the agents.
+### Installation
 
-## Using GPT 3.5
-CrewAI allow you to pass an llm argument to the agent constructor, that will be it's brain, so changing the agent to use GPT-3.5 instead of GPT-4 is as simple as passing that argument on the agent you want to use that LLM (in `main.py`).
-```python
-from langchain.chat_models import ChatOpenAI
-
-llm = ChatOpenAI(model='gpt-3.5') # Loading GPT-3.5
-
-def local_expert(self):
-	return Agent(
-		role='Local Expert at this city',
-		goal='Provide the BEST insights about the selected city',
-		backstory="""A knowledgeable local guide with extensive information
-		about the city, it's attractions and customs""",
-		tools=[
-			SearchTools.search_internet,
-			BrowserTools.scrape_and_summarize_website,
-		],
-		llm=llm, # <----- passing our llm reference here
-		verbose=True
-	)
+1. Clone the repository:
+```bash
+git clone [your-repository-url]
+cd Trip-UI-Gemini
 ```
 
-## Using Local Models with Ollama
-The CrewAI framework supports integration with local models, such as Ollama, for enhanced flexibility and customization. This allows you to utilize your own models, which can be particularly useful for specialized tasks or data privacy concerns.
-
-### Setting Up Ollama
-- **Install Ollama**: Ensure that Ollama is properly installed in your environment. Follow the installation guide provided by Ollama for detailed instructions.
-- **Configure Ollama**: Set up Ollama to work with your local model. You will probably need to [tweak the model using a Modelfile](https://github.com/jmorganca/ollama/blob/main/docs/modelfile.md), I'd recommend adding `Observation` as a stop word and playing with `top_p` and `temperature`.
-
-### Integrating Ollama with CrewAI
-- Instantiate Ollama Model: Create an instance of the Ollama model. You can specify the model and the base URL during instantiation. For example:
-
-```python
-from langchain.llms import Ollama
-ollama_openhermes = Ollama(model="agent")
-# Pass Ollama Model to Agents: When creating your agents within the CrewAI framework, you can pass the Ollama model as an argument to the Agent constructor. For instance:
-
-def local_expert(self):
-	return Agent(
-		role='Local Expert at this city',
-		goal='Provide the BEST insights about the selected city',
-		backstory="""A knowledgeable local guide with extensive information
-		about the city, it's attractions and customs""",
-		tools=[
-			SearchTools.search_internet,
-			BrowserTools.scrape_and_summarize_website,
-		],
-		llm=ollama_openhermes, # Ollama model passed here
-		verbose=True
-	)
+2. Install dependencies using Poetry:
+```bash
+poetry install
 ```
 
-### Advantages of Using Local Models
-- **Privacy**: Local models allow processing of data within your own infrastructure, ensuring data privacy.
-- **Customization**: You can customize the model to better suit the specific needs of your tasks.
-- **Performance**: Depending on your setup, local models can offer performance benefits, especially in terms of latency.
+3. Set up your environment variables:
+Create a `.env` file in the root directory and add your API keys:
+```
+GOOGLE_API_KEY=your_google_api_key
+```
 
-## License
-This project is released under the MIT License.
+### Running the Application
+
+1. Start the Streamlit application:
+```bash
+poetry run streamlit run app.py
+```
+
+2. Open your browser and navigate to `http://localhost:8501`
+
+## 🛠️ Technology Stack
+
+- **Python 3.10+**: Core programming language
+- **CrewAI**: For orchestrating AI agents
+- **Streamlit**: For the web interface
+- **Google Generative AI**: For advanced AI capabilities
+- **Poetry**: For dependency management
+- **LangChain**: For AI/ML operations
+- **Pydantic**: For data validation
+
+## 📝 Usage
+
+1. Enter your travel origin
+2. Specify the cities you'd like to visit
+3. Select your travel dates
+4. Choose your interests from the provided options
+5. Add any additional interests
+6. Click "Generate Travel Plan" to get your personalized itinerary
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- CrewAI for the agent framework
+- Google for the Generative AI capabilities
+- Streamlit for the web interface framework
